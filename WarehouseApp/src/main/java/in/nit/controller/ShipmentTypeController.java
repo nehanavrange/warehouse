@@ -35,7 +35,7 @@ public class ShipmentTypeController {
 		String msg="ShipmentType data ' "+id+" ' save";
 		//msg send to UI
 		model.addAttribute("message", msg);
-		//to hide data form backing obj
+		//to hide data form backing object without data
 		model.addAttribute("shipmentType", new ShipmentType());
 		return "ShipmentTypeRegister";
 	}
@@ -92,6 +92,7 @@ public class ShipmentTypeController {
     	model.addAttribute("message", msg);
     	//show new data other rows
     	List<ShipmentType> list=service.getAllShipmentType();
+    	//sending form backing object with data
     	model.addAttribute("list", list);
 		return "ShipmentTypeData";
     	

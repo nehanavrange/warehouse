@@ -51,6 +51,59 @@ EX: for JSP -> EL:${key}
 -> from browser this data is store in spring container as ParamMap in key-value pair and then read that data using @RequestParam DataType key syntax in Controller.
 
 
+* JpaRepository Methods:
+1. save(obj)
+
+2.deleteByID(id)
+
+3. Option<T> findById(Id id)
+
+-> findById(Id id) method returns wrapped object of Optional  and Optional methods isPresent() or isEmpty() method checks Id is null or not. So it prevent NullPointerException.
+
+-> If return type "Optional" is not their then it may occur NullPointerException.
+
+4. List<T> findAll()
+
+* Symbolic Notation using Thymeleaf:
+
+1] Hyperlink/action url: @{/path}
+
+2] print data: th:text="${data}"
+
+3] Link Model Object: th:object="${objectName}"
+
+4] Link variable: th:field="*{variableName}"
+
+
+* Validation: two types client side and server side validations
+
+1] Client side validation; using jQuery
+
+-> verify data format
+
+-> EX: mobile/email pattern
+
+2] Server side validation: by using Validatior API or by using Ajax
+
+-> it will verify data existency. 
+
+-> checks given mail Id or user name already existed or not.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
