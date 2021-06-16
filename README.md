@@ -51,10 +51,11 @@ EX: for JSP -> EL:${key}
 -> from browser this data is store in spring container as ParamMap in key-value pair and then read that data using @RequestParam DataType key syntax in Controller.
 
 
-* JpaRepository Methods:
+JpaRepository Methods:
+======================
 1. save(obj)
 
-2.deleteByID(id)
+2. deleteByID(id)
 
 3. Option<T> findById(Id id)
 
@@ -64,7 +65,8 @@ EX: for JSP -> EL:${key}
 
 4. List<T> findAll()
 
-* Symbolic Notation using Thymeleaf:
+Symbolic Notation using Thymeleaf:
+==================================
 
 1] Hyperlink/action url: @{/path}
 
@@ -75,7 +77,8 @@ EX: for JSP -> EL:${key}
 4] Link variable: th:field="*{variableName}"
 
 
-* Validation: two types client side and server side validations
+Validation: two types client side and server side validations
+=============================================================
 
 1] Client side validation; using jQuery
 
