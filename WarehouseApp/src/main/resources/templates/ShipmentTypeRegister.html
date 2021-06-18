@@ -5,6 +5,12 @@
 <title>register</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
@@ -15,8 +21,8 @@
 				<h3>Welcome to Register Page</h3>
 			</div>
 			<div class="card-body">
-				<form th:action="@{/shipmenttpye/save}" method="post"
-					th:object="${shipmentType}">
+				<form id="shipmentTpyeForm" th:action="@{/shipmenttpye/save}"
+					method="post" th:object="${shipmentType}">
 
 					<!-- Row-1 -->
 					<div class="row">
@@ -74,9 +80,9 @@
 							<label for="shipmentGrade">Shipment Grade</label>
 						</div>
 						<div class="col-4">
-							<input type="radio" th:field="*{shipmentGrade}" value="A" />A <input
-								type="radio" th:field="*{shipmentGrade}" value="B" />B <input
-								type="radio" th:field="*{shipmentGrade}" value="C" />C
+							<input type="radio" th:field="*{shipmentGrade}" value="A" />A 
+							<input	type="radio" th:field="*{shipmentGrade}" value="B" />B 
+							<input	type="radio" th:field="*{shipmentGrade}" value="C" />C
 						</div>
 						<div class="col-4">
 							<span id="shipmentGradeError"></span>
@@ -104,7 +110,7 @@
 				</form>
 			</div>
 			<!-- Body End -->
-			
+
 			<div th:if="${message!=null}">
 				<div class="card-footer bg-info text-white text-center">
 					<b><span th:text="${message}"></span></b>
@@ -116,6 +122,156 @@
 		<!-- Card End -->
 	</div>
 	<!-- Container End -->
+	<script type="text/javascript">
+        $(document).ready(function(){
+            $("#shipmentModeError").hide();
+            $("#shipmentCodeError").hide();
+            $("#enableShipmentError").hide();
+		    $("#shipmentGradeError").hide();
+		    $("#descriptionError").hide();
+
+            var shipmentModeError=false;
+            var shipmentCodeError=false;
+		      var enableShipmentError=false;
+		     var shipmentGradeError=false;
+		     var descriptionError=false;
+
+             $("#shipmentMode").change(function(){
+                validate_shipmentMode();
+             });
+
+             $("#shipmentCode").keyup(function(){
+                $("#shipmentCode").val($("#shipmentCode").val().toUpperCase());	
+			    validate_shipmentCode();
+
+             });
+
+             $("#enableShipment").change(function(){
+        validate_enableShipment();
+    });
+    $('input[type="radio"][name="shipmentGrade"]').change(function(){
+        validate_shipmentGrade();
+    });
+    $("#description").keyup(function(){
+        validate_description();
+    });
+			
+
+             function validate_shipmentMode(){
+                var val=$("#shipmentMode").val();
+			if(val==''){
+				$("#shipmentModeError").show();
+				$("#shipmentModeError").html("Choose <b>Shipment Mode</b>");
+				$("#shipmentModeError").css("color","red");
+				shipmentModeError=false;
+            }
+			else{
+				
+				$("#shipmentModeError").hide();
+                shipmentModeError=true;
+			}
+			return shipmentModeError;
+
+             }
+       
+
+        function validate_shipmentCode(){
+			var val=$("#shipmentCode").val();
+			var exp=/^[A-Z]{4,8}$/ ;
+			if(val==''){
+				$("#shipmentCodeError").show();
+				$("#shipmentCodeError").html("Enter <b>Shipment Code</b>");
+				$("#shipmentCodeError").css("color","red");
+				shipmentCodeError=false;
+			}
+			else if(!exp.test(val)){
+				$("#shipmentCodeError").show();
+				$("#shipmentCodeError").html("Enter <b>4 to 8 chars only</b>");
+				$("#shipmentCodeError").css("color","red");
+				shipmentCodeError=false;
+			}
+			else{
+				shipmentCodeError=true;
+				$("#shipmentCodeError").hide();
+			}
+			return shipmentCodeError;
+		}
+
+        function validate_enableShipment(){
+            var v= $("#enableShipment").val();
+            if(v==''){
+                $("#enableShipmentError").show();
+                $("#enableShipmentError").html("Choose <b>Enable Shipment</b>");
+                $("#enableShipmentError").css("color","red");
+
+                enableShipmentError=false;
+            }
+            else{
+                $("#enableShipmentError").hide();
+                enableShipmentError=true;
+            }
+        return enableShipmentError;
+    }
+
+    function validate_shipmentGrade(){
+        var len=$('input[type="radio"][name="shipmentGrade"]:checked').length;
+        if(len==0){
+            $("#shipmentGradeError").show();
+                $("#shipmentGradeError").html("Choose <b>Shipment Grade</b>");
+                $("#shipmentGradeError").css("color","red");
+
+            shipmentGradeError=false;
+        }
+        else{
+            $("#shipmentGradeError").hide();
+          shipmentGradeError=true;
+
+        }
+     return shipmentGradeError;   
+    }
+
+    function validate_description(){
+        var v=$("#description").val();
+        
+        if(v.length<2 || v.length>150){
+               
+                $("#descriptionError").show();
+                $("#descriptionError").html("Enter <b>2-150 Chars Description</b>");
+                $("#descriptionError").css("color","red");
+
+                descriptionError=false;
+            }
+            else{
+                $("#descriptionError").hide();
+                descriptionError=true;
+            }
+
+        return descriptionError;
+    }
+
+    $("#shipmentTpyeForm").submit(function(){
+
+        validate_shipmentMode();
+        validate_shipmentCode();
+        validate_enableShipment();
+        validate_shipmentGrade();
+        validate_description();
+        
+        if(shipmentModeError && shipmentCodeError && enableShipmentError && shipmentGradeError && descriptionError){
+            
+            return true;
+        }  
+        else{
+            return false;
+        }
+          
+    });
+
+    });
+
+
+   </script>
+
 
 </body>
 </html>

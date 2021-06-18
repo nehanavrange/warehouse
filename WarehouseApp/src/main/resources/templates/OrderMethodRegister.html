@@ -2,37 +2,284 @@
 <html xmlns:th="https://www.thymeleaf.org/">
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>OrderMethod</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
 </head>
 <body>
-<h3>OrderMethod Register Page</h3>
-<form th:action="@{/ordermethod/save }" method="post" th:object="${orderMethod}">
-<pre>
-Order Mode:
-<input type="radio" th:field="*{orderMode}" value="Sale"/>Sale
-<input type="radio" th:field="*{orderMode}" value="Purchase"/>Purchase
 
-Order Code:
-<input type="text" th:field="*{orderCode}"/>
+	<div class="container">
 
-Order Type:
-<select th:field="*{orderType}">
-<option value="">-select-</option>
-<option value="FIFO">FIFO</option>
-<option value="LIFO">LIFO</option>
-<option value="FCFO">FCFO</option>
-<option value="FEFO">FEFO</option>
-</select>
+		<div class="card">
+			<div class="card-header bg-primary text-white text-center">
+				<h3>OrderMethod Register Page</h3>
+			</div>
+			<div class="card-body">
+				<form th:action="@{/ordermethod/save }" method="post"
+					th:object="${orderMethod}" id="orderMethodForm">
 
-Order Accept:
-<input type="checkbox" th:field="*{orderAccept}" value="Multi-Model"/>Multi-Model
-<input type="checkbox" th:field="*{orderAccept}" value="Accept Return"/>Accept Return 
 
-Description:<textarea th:field="*{description}"></textarea>
-<input type="submit" value="Create OrderMethod"/>
+					<!-- Row-1 -->
+					<div class="row">
+						<div class="col-4">
+							<label for="orderMode">Order Mode</label>
+						</div>
+						<div class="col-4">
+							<input type="radio" th:field="*{orderMode}" value="Sale" />Sale <input
+								type="radio" th:field="*{orderMode}" value="Purchase" />Purchase
 
-</pre>
-</form>
-<span th:text="${message}"></span>
+						</div>
+						<div class="col-4">
+							<span id="orderModeError"></span>
+						</div>
+					</div>
+
+					<!-- Row-2 -->
+					<div class="row">
+						<div class="col-4">
+							<label for="orderCode">Order Code</label>
+						</div>
+						<div class="col-4">
+							<input type="text" th:field="*{orderCode}" class="form-control" />
+						</div>
+						<div class="col-4">
+							<span id="orderCodeError"></span>
+						</div>
+					</div>
+
+					<!-- Row-3 -->
+
+					<div class="row">
+						<div class="col-4">
+							<label for="orderType">Order Type</label>
+						</div>
+						<div class="col-4">
+							<select th:field="*{orderType}" class="form-control">
+								<option value="">-select-</option>
+								<option value="FIFO">FIFO</option>
+								<option value="LIFO">LIFO</option>
+								<option value="FCFO">FCFO</option>
+								<option value="FEFO">FEFO</option>
+
+							</select>
+						</div>
+						<div class="col-4">
+							<span id="orderTypeError"></span>
+						</div>
+					</div>
+
+					<!-- Row-4 -->
+					<div class="row">
+						<div class="col-4">
+							<label for="orderAccept">Order Accept</label>
+						</div>
+						<div class="col-4">
+							<input type="checkbox" th:field="*{orderAccept}"
+								value="Multi-Model" />Multi-Model <input type="checkbox"
+								th:field="*{orderAccept}" value="Accept Return" />Accept Return
+
+						</div>
+						<div class="col-4">
+							<span id="orderAcceptError"></span>
+						</div>
+					</div>
+
+					<!-- Row-5 -->
+					<div class="row">
+						<div class="col-4">
+							<label for="description">Description</label>
+
+						</div>
+						<div class="col-4">
+							<textarea th:field="*{description}"></textarea>
+						</div>
+						<div class="col-4">
+							<span id="descriptionError"></span>
+						</div>
+					</div>
+
+					<input type="submit" class="btn btn-success"
+						value="Create OrderMethod" />
+
+
+				</form>
+			</div>
+			<!-- Body End -->
+
+			<div th:if="${message!=null}">
+				<div class="card-footer bg-info text-white text-center">
+					<b><span th:text="${message}"></span></b>
+				</div>
+			</div>
+			<!-- Footer End -->
+
+		</div>
+		<!-- Card End -->
+	</div>
+	<!-- Container End -->
+	
+	<script type="text/javascript">
+        $(document).ready(function(){
+            $("#orderModeError").hide();
+            $("#orderCodeError").hide();
+            $("#orderAcceptError").hide();
+		    $("#orderTypeError").hide();
+		    $("#descriptionError").hide();
+
+            var orderModeError=false;
+            var orderCodeError=false;
+		     var orderAcceptError=false;
+		     var orderTypeError=false;
+		     var descriptionError=false;
+
+		     
+		     $('input[type="radio"][name="orderMode"]:checked').change(function(){
+		         validate_orderMode();
+		     });
+		     
+		     $("#orderCode").keyup(function(){
+	                $("#orderCode").val($("#orderCode").val().toUpperCase());	
+				    validate_orderCode();
+
+	             });
+		     
+             $("#orderType").change(function(){
+                validate_orderType();
+             });
+
+             
+             $('input[type="checkbox"][name="orderAccept"]').change(function(){
+		         validate_orderAccept();
+		     });
+    
+    $("#description").keyup(function(){
+        validate_description();
+    });
+			
+
+             function  validate_orderMode(){
+            	 var len=$('input[type="radio"][name="orderMode"]:checked').length;
+                 if(len==0){
+                     $("#orderModeError").show();
+                         $("#orderModeError").html("Choose <b>Order Mode</b>");
+                         $("#orderModeError").css("color","red");
+
+                         orderModeError=false;
+                 }
+                 else{
+                     $("#orderModeError").hide();
+                     orderModeError=true;
+
+                 }
+              return orderModeError;
+
+             }
+       
+
+        function validate_orderCode(){
+			var val=$("#orderCode").val();
+			var exp=/^[A-Z]{4,8}$/ ;
+			if(val==''){
+				$("#orderCodeError").show();
+				$("#orderCodeError").html("Enter <b>order Code</b>");
+				$("#orderCodeError").css("color","red");
+				orderCodeError=false;
+			}
+			else if(!exp.test(val)){
+				$("#orderCodeError").show();
+				$("#orderCodeError").html("Enter <b>4 to 8 chars only</b>");
+				$("#orderCodeError").css("color","red");
+				orderCodeError=false;
+			}
+			else{
+				orderCodeError=true;
+				$("#orderCodeError").hide();
+			}
+			return orderCodeError;
+		}
+
+        function  validate_orderType(){
+            var v= $("#orderType").val();
+            if(v==''){
+                $("#orderTypeError").show();
+                $("#orderTypeError").html("Choose <b>Order Type</b>");
+                $("#orderTypeError").css("color","red");
+
+                orderTypeError=false;
+            }
+            else{
+                $("#orderTypeError").hide();
+                orderTypeError=true;
+            }
+        return orderTypeError;
+    }
+
+    function validate_orderAccept(){
+        var len=$('input[type="radio"][name="orderAccept"]:checked').length;
+        if(len==0){
+            $("#orderAcceptError").show();
+                $("#orderAcceptError").html("Choose any one <b>Order Accept</b>");
+                $("#orderAcceptError").css("color","red");
+
+                orderAcceptError=false;
+        }
+        else{
+            $("#orderAcceptError").hide();
+            orderAcceptError=true;
+
+        }
+     return orderAcceptError;   
+    }
+
+    function validate_description(){
+        var v=$("#description").val();
+        
+        if(v.length<2 || v.length>150){
+               
+                $("#descriptionError").show();
+                $("#descriptionError").html("Enter <b>2-150 Chars Description</b>");
+                $("#descriptionError").css("color","red");
+
+                descriptionError=false;
+            }
+            else{
+                $("#descriptionError").hide();
+                descriptionError=true;
+            }
+
+        return descriptionError;
+    }
+
+    $("#orderMethodForm").submit(function(){
+
+        validate_orderMode();
+        validate_orderCode();
+        validate_orderType();
+        validate_orderAccept();
+        validate_description();
+        
+        if(orderModeError && orderCodeError && orderTypeError && orderAcceptError && descriptionError){
+            
+            return true;
+        }  
+        else{
+            return false;
+        }
+          
+    });
+
+    });
+
+
+   </script>
+
+
 </body>
 </html>
