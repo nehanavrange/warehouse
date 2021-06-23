@@ -3,18 +3,60 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
 
-<div class="container">
+	<div class="container">
 		<div class="card">
-			<div class="card-header"></div>
-			<div class="card-body"></div>
-			<div class="card-footer"></div>
+		<div class="card-header bg-primary text-white text-center">
+				<h3>Welcome to Data View Page</h3>
+			</div>
+		
+
+			<div class="card-body">
+				<table  class="table table-hover">
+					<tr class="bg-info text-white ">
+						<th>ID</th>
+						<td th:text="${ob.id}"></td>
+					</tr>
+					<tr>
+						<th>ShipmentMode</th>
+						<td th:text="${ob.shipmentMode}"></td>
+					</tr>
+					<tr>
+						<th>ShipmentCode</th>
+						<td th:text="${ob.shipmentCode}"></td>
+					</tr>
+					<tr>
+						<th>EnableShipment</th>
+						<td th:text="${ob.enableShipment}"></td>
+					</tr>
+					<tr>
+						<th>ShipmentGrade</th>
+						<td th:text="${ob.shipmentGrade}"></td>
+					</tr>
+					<tr>
+						<th>Description</th>
+						<td th:text="${ob.description}"></td>
+					</tr>
+
+				</table>
+
+			</div>
+			<div class="card-footer bg-primary"></div>
 		</div>
 	</div>
-	
-	<div class="row">
+
+
+
+
+
+</body>
+</html>
+
+<!-- <div class="row">
 					<div class="col-4">
 					<label for=""></label>
 					</div>
@@ -22,35 +64,4 @@
 					</div>
 					<div class="col-4">
 					</div>
-					</div>
-					
-<h3>Welcome to Data View Page</h3>
-	<table border="1">
-		<tr>
-			<th>ID</th>
-			<td th:text="${ob.id}"></td>
-		</tr>
-		<tr>
-			<th>ShipmentMode</th>
-			<td th:text="${ob.shipmentMode}"></td>
-		</tr>
-		<tr>
-			<th>ShipmentCode</th>
-			<td th:text="${ob.shipmentCode}"></td>
-		</tr>
-		<tr>
-			<th>EnableShipment</th>
-			<td th:text="${ob.enableShipment}"></td>
-		</tr>
-		<tr>
-			<th>ShipmentGrade</th>
-			<td th:text="${ob.shipmentGrade}"></td>
-		</tr>
-		<tr>
-			<th>Description</th>
-			<td th:text="${ob.description}"></td>
-		</tr>
-		
-	</table>
-</body>
-</html>
+					</div> -->
