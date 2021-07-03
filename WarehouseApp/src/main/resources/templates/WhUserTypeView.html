@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<head>
+<meta charset="ISO-8859-1">
+<title>view</title>
+</head>
+<body>
+
+<div class="container">
+		<div class="card">
+			<div class="card-header bg-primary text-white text-center">
+				<h3>Welcome to WhUserType View Page</h3>
+			</div>
+
+			<div class="card-body">
+			
+							
+							
+				<table class="table table-hover">
+					<tr class="bg-info text-white ">
+						<th>WhUserType Id</th>
+						<td th:text="${ob.id}"></td>
+						</tr>
+						
+						<tr>
+						<th>User Type</th>
+						<td th:text="${ob.userType}"></td>
+						</tr>
+						
+						<tr> 
+						<th>User Code</th>
+						<td th:text="${ob.userCode}"></td>
+						</tr>
+						<!-- <th>User For</th> -->
+						
+						<tr> 
+						<th>User Mail</th>
+						<td th:text="${ob.userMail}"></td>
+						</tr>
+						<!-- <th>User Contact</th>
+						<th>UserIdType</th>
+						<th>If Other</th>
+						<th>Id Number</th> -->
+						
+						
+						
+						
+						
+						<!-- <td th:text="${ob.userFor}"></td> -->
+						
+						
+						
+						<!-- <td th:text="${ob.userContact}"></td>
+						<td th:text="${ob.userIdType}"></td>
+						<td th:text="${ob.ifOther}"></td>
+						<td th:text="${ob.idNumber}"></td>        -->
+ 						
+				</table>
+			</div>
+			<div class="card-footer bg-primary text-white ">
+				
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

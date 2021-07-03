@@ -11,61 +11,60 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
-import in.nit.model.ShipmentType;
-import in.nit.service.IShipmentTypeService;
-import in.nit.view.ShipmentTypeExcelView;
+import in.nit.model.WhUserType;
+import in.nit.service.IWhUserTypeService;
 
 @Controller
-@RequestMapping("/shipmenttpye")
-public class ShipmentTypeController {
+@RequestMapping("/whusertype")
+public class WhUserTypeController {
+	
 	@Autowired
-	private IShipmentTypeService service;
+	private IWhUserTypeService service;
 	
 	@GetMapping("/register")
 	public String showRegister(Model model)
 	{
 		//form backing object
-		model.addAttribute("shipmentType", new ShipmentType());
-		return "ShipmentTypeRegister";
+		model.addAttribute("whUserType", new WhUserType());
+		return "WhUserTypeRegister";
 	}
     @PostMapping("/save")
-	public String save(@ModelAttribute ShipmentType shipmentType,Model model)
+	public String save(@ModelAttribute WhUserType whUserType,Model model)
 	{
-		Integer id=service.saveShipmentType(shipmentType);
-		String msg="ShipmentType data ' "+id+" ' save";
+		Integer id=service.saveWhUserType(whUserType);
+		String msg="WhUserType data ' "+id+" ' save";
 		//msg send to UI
 		model.addAttribute("message", msg);
 		//to hide data form backing object without data
-		model.addAttribute("shipmentType", new ShipmentType());
-		return "ShipmentTypeRegister";
+		model.addAttribute("whUserType", new WhUserType());
+		return "WhUserTypeRegister";
 	}
     @GetMapping("/all")
     public String showAll(Model model)
     {
-    	List<ShipmentType> list=service.getAllShipmentType();
+    	List<WhUserType> list=service.getAllWhUserType();
     	model.addAttribute("list", list);
-		return "ShipmentTypeData";
+		return "WhUserTypeData";
     }
     
     @GetMapping("/delete/{id}")
     public String removeById(@PathVariable Integer id,Model model)
     {
     	String msg=null;
-    	if(service.isShipmentTypeExist(id))
+    	if(service.isWhUserTypeExist(id))
     	{
-    		service.deleteShipmentType(id);
-    		msg="ShipmentType ' "+id+ " 'deleted";
+    		service.deleteWhUserType(id);
+    		msg="WhUserType ' "+id+ " 'deleted";
     	}
     	else {
-    		msg="ShipmentType ' "+id+ " 'not Exist";
+    		msg="WhUserType ' "+id+ " 'not Exist";
     	}
     	model.addAttribute("message", msg);
     	//fetch other data
-    	List<ShipmentType> list=service.getAllShipmentType();
+    	List<WhUserType> list=service.getAllWhUserType();
     	model.addAttribute("list", list);
-    	return "ShipmentTypeData";
+    	return "WhUserTypeData";
     }
 	//onclick edit hyperlink on ui
     //read one path variable and fetch data from service if exist send to edit page else redirect to data page
@@ -73,13 +72,13 @@ public class ShipmentTypeController {
     @GetMapping("/edit/{id}")
     public String showEdit(@PathVariable Integer id,Model model)
     {
-    	Optional<ShipmentType> opt=service.getOneShipmentType(id);
+    	Optional<WhUserType> opt=service.getOneWhUserType(id);
     	String page=null;
 		if(opt.isPresent())
     	{
-    		ShipmentType st=opt.get();
-    		model.addAttribute("shipmentType", st);
-    		page="ShipmentTypeEdit";
+    		WhUserType st=opt.get();
+    		model.addAttribute("whUserType", st);
+    		page="WhUserTypeEdit";
     	}
     	else
     		page="redirect:../all";
@@ -87,16 +86,16 @@ public class ShipmentTypeController {
     }
     //onclik update button,read form data and perform update operation send back to data page success msg
     @PostMapping("/update")
-    public String update(@ModelAttribute ShipmentType shipmentType,Model model)
+    public String update(@ModelAttribute WhUserType whUserType,Model model)
     {
-    	service.updateShipmentType(shipmentType);
-    	String msg="ShipmentType ' "+shipmentType.getId()+" ' Updated";
+    	service.updateWhUserType(whUserType);
+    	String msg="WhUserType ' "+whUserType.getId()+" ' Updated";
     	model.addAttribute("message", msg);
     	//show new data other rows
-    	List<ShipmentType> list=service.getAllShipmentType();
+    	List<WhUserType> list=service.getAllWhUserType();
     	//sending form backing object with data
     	model.addAttribute("list", list);
-		return "ShipmentTypeData";
+		return "WhUserTypeData";
     	
     }
     
@@ -104,11 +103,11 @@ public class ShipmentTypeController {
     @GetMapping("/view/{id}")
     public String view(@PathVariable Integer id,Model model) {
     	String page=null;
-		Optional<ShipmentType>opt=service.getOneShipmentType(id);
+		Optional<WhUserType>opt=service.getOneWhUserType(id);
 		if(opt.isPresent()) {
-			ShipmentType om=opt.get();
+			WhUserType om=opt.get();
 			model.addAttribute("ob",om);
-			page="ShipmentTypeView";
+			page="WhUserTypeView";
 		}
 		else {
 			return "redirect:../all";
@@ -117,40 +116,5 @@ public class ShipmentTypeController {
     	
     	
     }
-    
-    
-    //export data to excel file
-    
-/*    @GetMapping("/excel")
-     public ModelAndView  exportToFile() {
-    	ModelAndView  m= new ModelAndView();
-    	 m.setView(new ShipmentTypeExcelView());
-    	 
-    	 //send data to view class
-    	 List<ShipmentType>list=service.getAllShipmentType();
-    	 m.addObject("ob",list);
-    	 
-    	 return m;
-    	 
-     }
-    */
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 }

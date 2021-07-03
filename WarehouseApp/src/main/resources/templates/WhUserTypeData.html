@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<title>all</title>
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+		<div class="card">
+			<div class="card-header bg-primary text-white text-center">
+				<h3>Welcome to WhUserType Data Page</h3>
+			</div>
+
+			<div class="card-body">
+							
+							
+				<table class="table table-hover">
+					<tr class="bg-info text-white text-center">
+						<th>WhUserType Id</th>
+						<th>User Type</th>
+						<th>User Code</th>
+						<!-- <th>User For</th> -->
+						<th>User Mail</th>
+						<!-- <th>User Contact</th>
+						<th>UserIdType</th>
+						<th>If Other</th>
+						<th>Id Number</th> -->
+						
+						<th colspan="3">Operation</th>
+					</tr>
+					<tr th:each="ob:${list}">
+						<td th:text="${ob.id}"></td>
+						<td th:text="${ob.userType}"></td>
+						<td th:text="${ob.userCode}"></td>
+						<!-- <td th:text="${ob.userFor}"></td> -->
+						
+						<td th:text="${ob.userMail}"></td>
+						
+						<!-- <td th:text="${ob.userContact}"></td>
+						<td th:text="${ob.userIdType}"></td>
+						<td th:text="${ob.ifOther}"></td>
+						<td th:text="${ob.idNumber}"></td>
+ -->						
+						<td><a th:href="@{/whusertype/delete/{id}(id=${ob.id})}"
+							class="btn btn-danger">DELETE</a></td>
+						<td><a th:href="@{/whusertype/edit/{id}(id=${ob.id})}"
+							class="btn btn-success">EDIT</a></td>
+						<td><a th:href="@{/whusertype/view/{id}(id=${ob.id})}" class="btn btn-primary">VIEW</a></td>
+					</tr>
+				</table>
+			</div>
+			<div class="card-footer bg-primary text-white text-center">
+				<b><span th:text="${message}"></span></b>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
