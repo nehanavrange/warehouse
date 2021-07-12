@@ -21,12 +21,14 @@ public class ShipmentTypeServiceImpl implements in.nit.service.IShipmentTypeServ
 	public Integer saveShipmentType(ShipmentType st) {
 		return repo.save(st).getId();
 	}
+	
 	@Transactional
 	@Override
 	public void updateShipmentType(ShipmentType st) {
 		repo.save(st);
 
 	}
+	
 	@Transactional
 	@Override
 	public void deleteShipmentType(Integer id) {
@@ -40,16 +42,26 @@ public class ShipmentTypeServiceImpl implements in.nit.service.IShipmentTypeServ
 		
 		return opt;
 	}
+	
 	@Transactional(readOnly = true)
 	@Override
 	public List<ShipmentType> getAllShipmentType() {
 		List<ShipmentType> list=repo.findAll();
 		return list;
 	}
+	
 	@Transactional(readOnly = true)
 	@Override
 	public boolean isShipmentTypeExist(Integer id) {
 		boolean flag=repo.existsById(id);
+		return flag;
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public boolean isShipmentTypeCodeExist(String shipmentCode) {
+		int count=repo.getShipmentCodeCount(shipmentCode);
+		boolean flag=(count)>=1 ? true:false;
 		return flag;
 	}
 

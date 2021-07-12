@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import in.nit.model.WhUserType;
 import in.nit.service.IWhUserTypeService;
+import in.nit.util.EmailUtil;
 
 @Controller
 @RequestMapping("/whusertype")
@@ -21,6 +24,9 @@ public class WhUserTypeController {
 	
 	@Autowired
 	private IWhUserTypeService service;
+	
+	@Autowired
+	private EmailUtil emailUtil;
 	
 	@GetMapping("/register")
 	public String showRegister(Model model)
@@ -33,7 +39,22 @@ public class WhUserTypeController {
 	public String save(@ModelAttribute WhUserType whUserType,Model model)
 	{
 		Integer id=service.saveWhUserType(whUserType);
+		
 		String msg="WhUserType data ' "+id+" ' save";
+		
+		//send email on save
+		if(id!=0) {
+		boolean flag=emailUtil.send(whUserType.getUserMail(), "Welcome", "Hello User:"+whUserType.getUserCode()+",You are type:"+whUserType.getUserIdType());
+		
+		if(flag) {
+			msg=msg+", Email also sent!";
+		}
+		else {
+			msg=msg+", Email not sent!";
+		}
+		}
+		
+		
 		//msg send to UI
 		model.addAttribute("message", msg);
 		//to hide data form backing object without data
@@ -113,8 +134,25 @@ public class WhUserTypeController {
 			return "redirect:../all";
 		}
 		return page;
+    		
+    }
+    
+    //Ajax validation
+    @GetMapping("/mailcheck")
+    public @ResponseBody String validateEmail(@RequestParam String mail) {
+		String msg="";
+		if(service.isWhUserTypeEmailExist(mail)) {
+			msg=mail+"<b> already exists!</b>";
+		}
     	
+    	
+    	return msg;
     	
     }
+    
+    
+    
+    
+    
 
 }

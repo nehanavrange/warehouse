@@ -15,5 +15,6 @@ public interface IWhUserTypeService {
 		Optional<WhUserType> getOneWhUserType(Integer id);
 		List<WhUserType> getAllWhUserType();
 		boolean isWhUserTypeExist(Integer id);
+		boolean isWhUserTypeEmailExist(String mail);
 		
 }

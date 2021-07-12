@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import in.nit.model.OrderMethod;
 import in.nit.service.IOrderMethodService;
@@ -113,6 +115,19 @@ public class OrderMethodController {
 		}
 		return page;
 	}
+	
+	//Ajax validation
+	@GetMapping("/validatecode")
+	public @ResponseBody String validateCode(@RequestParam  String code) {
+		String msg="";
+		if(service.isOrderMethodCodeExist(code)) {
+			msg="<b>Order Method '" +code+"' already exist!</b> ";
+		}
+		
+		return msg;
+		
+	}
+			
 	
 
 }

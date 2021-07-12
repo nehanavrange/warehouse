@@ -5,7 +5,7 @@
 <title>register</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script
@@ -190,10 +190,30 @@
 				$("#shipmentCodeError").css("color","red");
 				shipmentCodeError=false;
 			}
+			
 			else{
-				shipmentCodeError=true;
-				$("#shipmentCodeError").hide();
-			}
+				//Ajax start communicate with database, checking duplicates 
+				$.ajax({
+				
+					url : 'validatecode',
+					data: {"code":val},
+					success:function(restext){
+					if(restext!=""){
+						$("#shipmentCodeError").show();
+						$("#shipmentCodeError").html(restext);
+						$("#shipmentCodeError").css("color","red");
+						shipmentCodeError=false;
+					}
+					else{
+
+						shipmentCodeError=true;
+						$("#shipmentCodeError").hide();
+					}
+			
+				} //success:function() end
+				});  //Ajax end
+				
+			} //else block end
 			return shipmentCodeError;
 		}
 

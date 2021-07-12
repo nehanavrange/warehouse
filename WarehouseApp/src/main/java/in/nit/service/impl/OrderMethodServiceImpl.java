@@ -59,4 +59,13 @@ public class OrderMethodServiceImpl implements IOrderMethodService {
 		return repo.existsById(id);
 	}
 
+
+	@Transactional(readOnly = true)
+	@Override
+	public boolean isOrderMethodCodeExist(String orderCode) {
+		int count=repo.getOrderMethodCodeCount(orderCode);
+		
+		return count>0 ? true:false;
+	}
+
 }

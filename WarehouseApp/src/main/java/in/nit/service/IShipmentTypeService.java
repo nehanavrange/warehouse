@@ -17,4 +17,6 @@ public interface IShipmentTypeService {
 	List<ShipmentType> getAllShipmentType();
 	boolean isShipmentTypeExist(Integer id);
 	
+	boolean isShipmentTypeCodeExist(String shipmentCode);
+	
 }

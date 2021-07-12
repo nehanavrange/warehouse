@@ -5,7 +5,7 @@
 <title>OrderMethod</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script
@@ -199,8 +199,28 @@
 				orderCodeError=false;
 			}
 			else{
-				orderCodeError=true;
-				$("#orderCodeError").hide();
+				
+				//Ajax start communicate with database, checking duplicates 
+				$.ajax({
+				
+					url : 'validatecode',
+					data: {"code":val},
+					success:function(restext){
+					if(restext!=""){
+						$("#orderCodeError").show();
+						$("#orderCodeError").html(restext);
+						$("#orderCodeError").css("color","red");
+						orderCodeError=false;
+					}
+					else{
+
+						orderCodeError=true;
+						$("#orderCodeError").hide();
+					}
+			
+				} //success:function() end
+				});  //Ajax end
+				
 			}
 			return orderCodeError;
 		}
@@ -222,7 +242,7 @@
     }
 
     function validate_orderAccept(){
-        var len=$('input[type="radio"][name="orderAccept"]:checked').length;
+        var len=$('input[type="checkbox"][name="orderAccept"]:checked').length;
         if(len==0){
             $("#orderAcceptError").show();
                 $("#orderAcceptError").html("Choose any one <b>Order Accept</b>");

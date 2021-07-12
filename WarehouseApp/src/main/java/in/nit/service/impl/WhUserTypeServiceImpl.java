@@ -58,4 +58,11 @@ public class WhUserTypeServiceImpl implements IWhUserTypeService{
 		return repo.existsById(id);
 	}
 
+	@Transactional
+	@Override
+	public boolean isWhUserTypeEmailExist(String mail) {
+		
+		return repo.getWhUserTypeMailCount(mail)>0 ? true:false;
+	}
+
 }

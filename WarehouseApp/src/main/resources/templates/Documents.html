@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<title>document</title>
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<div class="container">
+		<div class="card">
+			<div class="card-header bg-primary text-white text-center">
+				<h3>Welcome to Document Page</h3>
+			</div>
+			<div class="card-body">
+				<form id="DocumentForm" th:action="@{/documents/save}" method="post"
+					enctype="multipart/form-data">
+
+					<!-- Row-1 -->
+					<div class="row">
+						<div class="col-4">
+							<label for="fileId">FILE ID </label>
+						</div>
+						<div class="col-4">
+							<input type="text" name="fileId" class="form-control" />
+						</div>
+						<div class="col-4">
+							<span id="fileIdError"></span>
+						</div>
+					</div>
+
+					<!-- Row-2 -->
+					<div class="row">
+						<div class="col-4">
+							<label for="fileOb">Select File </label>
+						</div>
+						<div class="col-4">
+							<input type="file" name="fileOb"
+								class="form-control btn btn-info" />
+						</div>
+						<div class="col-4">
+							<span id="fileObError"></span>
+						</div>
+					</div>
+
+					<input type="submit" class="btn btn-success" value="Upload" />
+
+
+				</form>
+			</div>
+		</div>
+		<!-- Card End -->
+	</div>
+	<!-- Container End -->
+	<script>
+        $(document).ready(function () {
+            alert("OK");
+            $("#fileIdError").hide();
+            var fileIdError = false;
+
+            $("#fileId").keyup(function () {
+            	alert("OK");
+                validate_fileId();
+            });
+
+
+            function validate_fileId() {
+            	alert("OK");
+                var val = $("#fileId").val();
+                var exp = /^[1-9][0-9]*$/;
+
+                if (val == '') {
+                    $("#fileIdError").show();
+                    $("#fileIdError").html("Enter <b>File Id</b>");
+                    $("#fileIdError").css("color", "red");
+                    fileIdError = false;
+                } else if (!exp.test(val)) {
+                    $("#fileIdError").show();
+                    $("#fileIdError").html("Not a valid <b>File Id</b>");
+                    $("#fileIdError").css("color", "red");
+                    fileIdError = false;
+                } else {
+                    $("#fileIdError").hide();
+                    fileIdError = true;
+                }
+                return fileIdError;
+            }
+
+});
+    </script>
+
+</body>
+</html>
