@@ -29,6 +29,8 @@ public class UOMTypeController {
 		model.addAttribute("uomType", new UOMType());
 		return "UOMRegister";
 	}
+	
+	
 	@PostMapping("/save")
 	public String save(@ModelAttribute UOMType uomtype,Model model) {
 		Integer id=service.saveUOMType(uomtype);
@@ -38,6 +40,7 @@ public class UOMTypeController {
 	    model.addAttribute("uomType", new UOMType());
 	    return "UOMRegister";	
 	}
+	
 	@GetMapping("/all")
 	public String showAll(Model model)
 	{

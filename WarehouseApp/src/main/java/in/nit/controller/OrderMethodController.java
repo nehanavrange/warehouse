@@ -23,6 +23,7 @@ public class OrderMethodController {
 	@Autowired
 	IOrderMethodService service;
 
+	
 	// 1. show register page
 	@GetMapping("/register")
 	public String showRegister(Model model) {

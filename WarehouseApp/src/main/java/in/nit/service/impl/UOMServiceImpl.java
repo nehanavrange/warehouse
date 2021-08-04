@@ -1,7 +1,9 @@
 package in.nit.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,20 +18,20 @@ public class UOMServiceImpl implements IUOMService {
 
 	@Autowired
 	private UOMTypeRepository repo;
-	
+
 	@Transactional
 	@Override
 	public Integer saveUOMType(UOMType st) {
 		Integer id=repo.save(st).getId();
 		return id;
 	}
-	
+
 	@Transactional
 	@Override
 	public void updateUOMType(UOMType st) {
 		repo.save(st);
 	}
-	
+
 	@Transactional
 	@Override
 	public void deleteUOMType(Integer id) {
@@ -54,5 +56,36 @@ public class UOMServiceImpl implements IUOMService {
 		boolean flag=repo.existsById(id);
 		return flag;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Map<Integer, String> getUomIdAndModel() {
+
+		Map<Integer, String> map=repo.getUomIdAndModel().stream().
+				filter(array->array!=null).
+				collect(Collectors.toMap(array->Integer.valueOf(array[0].toString()), 
+						array->array[1].toString()));
+
+		return map;
+		
+	/*	
+		//using for loop
+		Map<Integer, String> map=new LinkedHashMap<>();
+		List<Object[]> list=repo.getUomIdAndModel();
+		
+		for (Object[] ob : list) {
+			map.put(Integer.valueOf(ob[0].toString()), ob[1].toString());
+		}
+		
+		return map;
+	
+	*/	
+			
+	}
+	
+	
+	
+	
+	
 
 }
