@@ -1,6 +1,7 @@
 package in.nit.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -17,5 +18,10 @@ public interface IPartService {
 		Optional<Part> getOnePart(Integer id);
 		List<Part> getAllPart();
 		boolean isPartExist(Integer id);
+		
+		boolean isPartCodeExist(String partCode);
+		boolean isPartCodeExistForEdit(String partCode,Integer id);
+		
+		Map<Integer,String> getPartIdAndCode();
 		
 }

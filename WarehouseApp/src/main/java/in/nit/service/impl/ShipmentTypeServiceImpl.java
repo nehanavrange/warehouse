@@ -1,7 +1,9 @@
 package in.nit.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,6 +65,15 @@ public class ShipmentTypeServiceImpl implements in.nit.service.IShipmentTypeServ
 		int count=repo.getShipmentCodeCount(shipmentCode);
 		boolean flag=(count)>=1 ? true:false;
 		return flag;
+	}
+
+	
+	//used in integration
+	@Override
+	public Map<Integer, String> getShipmentIdAndCode() {
+		return repo.getShipmentIdAndCode().stream().
+				collect(Collectors.toMap(ob->Integer.valueOf(ob[0].toString()), ob->ob[1].toString()));
+		 
 	}
 
 }

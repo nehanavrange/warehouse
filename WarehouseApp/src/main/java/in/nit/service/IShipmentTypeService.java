@@ -1,6 +1,7 @@
 package in.nit.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import in.nit.model.ShipmentType;
@@ -19,4 +20,6 @@ public interface IShipmentTypeService {
 	
 	boolean isShipmentTypeCodeExist(String shipmentCode);
 	
+	//used in integration with purchaseOrder
+	public Map<Integer,String> getShipmentIdAndCode();
 }

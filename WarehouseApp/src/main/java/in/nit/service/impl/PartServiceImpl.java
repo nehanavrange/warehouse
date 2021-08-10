@@ -1,7 +1,9 @@
 package in.nit.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +58,27 @@ public class PartServiceImpl implements IPartService{
 	@Override
 	public boolean isPartExist(Integer id) {
 		return repo.existsById(id);
+	}
+
+	@Override
+	public boolean isPartCodeExist(String partCode) {
+		return (repo.getPartCodeCount(partCode))>0?true:false;
+	}
+
+	@Override
+	public boolean isPartCodeExistForEdit(String partCode, Integer id) {
+		return (repo.getPartCodeCountForEdit(partCode,id))>0?true:false;
+		
+	}
+
+	@Override
+	public Map<Integer, String> getPartIdAndCode() {
+		return repo.getPartIdAndCode()
+				.stream()
+				.collect(Collectors.toMap(
+						ob->Integer.valueOf(ob[0].toString()), 
+						ob->ob[1].toString())
+						);
 	}
 
 }

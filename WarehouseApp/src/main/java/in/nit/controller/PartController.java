@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import in.nit.model.Part;
 import in.nit.service.IPartService;
@@ -137,6 +139,20 @@ public class PartController {
 			return page;
 		}
 		
+		// 12.Ajax Validation
+		@GetMapping("/validatecode")
+		public @ResponseBody String validatePartCode(
+				@RequestParam String code,
+				@RequestParam Integer id)
+		{
+			String msg = "";
+			if (id==0 && service.isPartCodeExist(code)) { //register
+				msg = "Part Code <b>'" + code + "' is Already exist</b>!";
+			}else if (service.isPartCodeExistForEdit(code,id)) { //edit
+				msg = "Part Code <b>'" + code + "' is Already exist</b>!";
+			} 
+			return msg;
+		}
 		
 		
 		

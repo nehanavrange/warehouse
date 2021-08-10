@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,7 @@ public class UOMTypeController {
 
 	@Autowired
 	private IUOMService service;
-	
+
 	@GetMapping("/register")
 	public  String showRegister(Model model)
 	{
@@ -29,18 +30,18 @@ public class UOMTypeController {
 		model.addAttribute("uomType", new UOMType());
 		return "UOMRegister";
 	}
-	
-	
+
+
 	@PostMapping("/save")
 	public String save(@ModelAttribute UOMType uomtype,Model model) {
 		Integer id=service.saveUOMType(uomtype);
 		String msg="UOMType ' "+id+" ' saved";
-	    model.addAttribute("message", msg);
-	  //form backing obj
-	    model.addAttribute("uomType", new UOMType());
-	    return "UOMRegister";	
+		model.addAttribute("message", msg);
+		//form backing obj
+		model.addAttribute("uomType", new UOMType());
+		return "UOMRegister";	
 	}
-	
+
 	@GetMapping("/all")
 	public String showAll(Model model)
 	{
@@ -53,19 +54,27 @@ public class UOMTypeController {
 	{
 		String msg=null;
 		if(service.isUOMTypeExist(id))
-         {
-        	 service.deleteUOMType(id);
-        	 msg="UOMType ' "+id+ " ' deleted";
-          }
-         else {
-        	 msg="UOMType ' "+id+ " ' not exist";
-         }
-         model.addAttribute("message", msg);
-         List<UOMType> list=service.getAllUOMType();
- 		model.addAttribute("list", list);
+		{
+			//invoke delete method
+			try {
+				service.deleteUOMType(id);
+				msg="UOMType ' "+id+ " ' deleted";
+			}
+			catch (DataIntegrityViolationException e) {
+				msg="UOMType ' "+id+ " ' can not be deleted! It is used by Part";
+				e.printStackTrace();
+			}
+
+		}
+		else {
+			msg="UOMType ' "+id+ " ' not exist";
+		}
+		model.addAttribute("message", msg);
+		List<UOMType> list=service.getAllUOMType();
+		model.addAttribute("list", list);
 		return "UOMData";
 	}
-	
+
 	@GetMapping("/edit/{id}")
 	public String showEdit(@PathVariable Integer id,Model model)
 	{
@@ -88,18 +97,18 @@ public class UOMTypeController {
 		service.updateUOMType(uom);
 		String msg="UOMType '"+uom.getId()+ "' Updated";
 		model.addAttribute("message", msg);
-		
+
 		//fetch new data
 		List<UOMType>list=service.getAllUOMType();
 		model.addAttribute("list",list);
 		return "UOMData";
-		
+
 	}
 
-    // view the page
-    @GetMapping("/view/{id}")
-    public String view(@PathVariable Integer id,Model model) {
-    	String page=null;
+	// view the page
+	@GetMapping("/view/{id}")
+	public String view(@PathVariable Integer id,Model model) {
+		String page=null;
 		Optional<UOMType>opt=service.getOneUOMType(id);
 		if(opt.isPresent()) {
 			UOMType om=opt.get();
@@ -110,27 +119,27 @@ public class UOMTypeController {
 			return "redirect:../all";
 		}
 		return page;
-    	
-    	
-    }
-    
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
