@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import in.nit.model.PurchaseOrder;
 import in.nit.service.IPurchaseOrderService;
 import in.nit.service.IShipmentTypeService;
+import in.nit.service.IWhUserTypeService;
 
 @Controller
 @RequestMapping("/purchaseorder")
@@ -31,6 +32,9 @@ public class PurchaseOrderController {
 	private IShipmentTypeService shipmentTypeservice;
 
 	@Autowired
+	private IWhUserTypeService whUserTypeService;
+	
+	@Autowired
 	private ServletContext context;
 	
 	
@@ -39,7 +43,7 @@ public class PurchaseOrderController {
 	//"shipmentTypes" is a has-a variable name
 		private void addDorpDownUi(Model model) {
 			model.addAttribute("shipmentTypes",shipmentTypeservice.getShipmentIdAndCode());
-			//model.addAttribute("whUserTypes",whUserTypeService.getWhUserTypeIdAndCode("Vendor"));
+			model.addAttribute("whUserTypes",whUserTypeService.getWhUserTypeIdAndCode("Vendor"));
 		}
 
 	// 1. Show Register Page

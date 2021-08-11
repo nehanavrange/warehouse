@@ -1,12 +1,13 @@
 package in.nit.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-
-import javax.transaction.Transactional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import in.nit.model.WhUserType;
 import in.nit.repo.WhUserTypeRepository;
@@ -37,14 +38,14 @@ public class WhUserTypeServiceImpl implements IWhUserTypeService{
 		repo.deleteById(id);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	@Override
 	public Optional<WhUserType> getOneWhUserType(Integer id) {
 		
 		return repo.findById(id);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	@Override
 	public List<WhUserType> getAllWhUserType() {
 		
@@ -58,11 +59,20 @@ public class WhUserTypeServiceImpl implements IWhUserTypeService{
 		return repo.existsById(id);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	@Override
 	public boolean isWhUserTypeEmailExist(String mail) {
 		
 		return repo.getWhUserTypeMailCount(mail)>0 ? true:false;
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public Map<Integer, String> getWhUserTypeIdAndCode(String userType) {
+		
+		return repo.getWhUserTypeIdAndCode(userType).
+				stream().collect(Collectors.
+						toMap(ob->Integer.valueOf(ob[0].toString()), ob->ob[1].toString()));
 	}
 
 }

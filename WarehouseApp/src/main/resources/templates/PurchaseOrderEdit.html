@@ -3,8 +3,7 @@
 <html xmlns:th="https://www.thymeleaf.org/">
 <head>
 <meta charset="ISO-8859-1">
-<title>Purchase Order Form</title>
-
+<title>Purchase Order Edit Form</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -15,10 +14,10 @@
 
 </head>
 <body>
-<!-- <div th:insert="fragments/commonui :: userhead"></div>
+<!-- 
+<div th:insert="fragments/commonui :: userhead"></div>
  <div th:insert="fragments/commonui :: usermenu"></div>
- -->
-<script type="text/javascript" th:src="@{/js/purchaseorder.js}"></script>
+	 -->
 	<div class="container">
 		<div class="card">
 			<div class="card-header text-center text-white bg-primary">
@@ -26,8 +25,9 @@
 			</div>
 			<!-- header end -->
 			<div class="card-body">
-				<form th:action="@{/purchaseorder/save}" method="POST"
+				<form th:action="@{/purchaseorder/update}" method="POST"
 					th:object="${purchaseOrder}" id="purchaseOrderForm">
+					<input type="hidden" readonly="readonly" th:field="*{id}" />
 					<!-- row#1 -->
 					<div class="row">
 						<div class="col-2">
@@ -41,21 +41,14 @@
 						</div>
 					</div>
 					
-					
 					<!-- row#Integeration -->
 					<div class="row">
 						<div class="col-2">
 							<label>Shipment Code</label>
 						</div>
 						<div class="col-4">
-						
-						<!-- "shipmentType" is a has-a variable in PurchaseOrder.java -->
-						
 							<select th:field="*{shipmentType.id}" id="shipmentType" class="form-control">
 								<option value="">SELECT</option>
-								
-								<!-- "shipmentTypes" is a has-a variable in PurchaseOrderController  -->
-								
 								<option th:each="ob:${shipmentTypes}" th:value="${ob.key}" th:text="${ob.value}"></option>
 							</select>
 						</div>
@@ -64,9 +57,9 @@
 						</div>
 					</div>
 					
-					 
+					
 					<!-- row#Integeration -->
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col-2">
 							<label>Vendor</label>
 						</div>
@@ -80,9 +73,7 @@
 							<span id="vendorError"></span>
 						</div>
 					</div>
-					
-					
-					
+					 -->
 					
 					<!-- row#2 -->
 					<div class="row">
@@ -97,25 +88,11 @@
 							<span id="referenceNumberError"></span>
 						</div>
 					</div>
-					<!-- row#3 -->
-					<div class="row">
-						<div class="col-2">
-							<label for="qualityCheck">Quality Check</label>
-						</div>
-						<div class="col-4">
-							<input type="radio" th:field="*{qualityCheck}" value="Required" />
-							Required <input type="radio" th:field="*{qualityCheck}"
-								value="Not Required" /> Not Required
-						</div>
-						<div class="col-6">
-							<span id="qualityCheckError"></span>
-						</div>
-					</div>
-
+					
 					<!-- row#4 -->
 					<div class="row">
 						<div class="col-2">
-							<label for="status"> Status</label>
+							<label for="status">Status</label>
 						</div>
 						<div class="col-4">
 							<input type="text" th:field="*{status}"
@@ -127,6 +104,24 @@
 							<span id="statusError"></span>
 						</div>
 					</div>
+					
+					<!-- row#3 -->
+					<div class="row">
+						<div class="col-2">
+							<label for="qualityCheck">Quality Check</label>
+						</div>
+						<div class="col-4">
+							<input type="radio" th:field="*{qualityCheck}" value="Required" />
+							Required 
+							<input type="radio" th:field="*{qualityCheck}"
+								value="Not Required" /> Not Required
+						</div>
+						<div class="col-6">
+							<span id="qualityCheckError"></span>
+						</div>
+					</div>
+
+					
 					<!-- row#5 -->
 					<div class="row">
 						<div class="col-2">
@@ -141,7 +136,7 @@
 					</div>
 					<!-- row#6 -->
 					<div class="row">
-						<button class="btn btn-success">Create Purchase Order</button>
+						<button class="btn btn-success">Update Purchase Order</button>
 					</div>
 
 				</form>
